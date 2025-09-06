@@ -1,8 +1,17 @@
 import { Plus, X,Pencil } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+// the add date function is still empty so we will need to do that later
+
 
 function Today({input, setInput, addTasks, setAddTasks}){
 
+    const [numberofTasks, setNumberofTasks] = useState(0)
+
+// Tracks homany task is list for today
+    useEffect(()=>{
+        setNumberofTasks(addTasks.length)
+    },[addTasks])
    
 // used to give the dates the right format
 const today = new Date();
@@ -45,7 +54,7 @@ const formatted = `${yy}-${mm}-${dd}`;
     return(
         <div class='w-[600px] border p-5 m-3 rounded-lg'>
             <div class='flex justify-center border-b'> <h1>Today</h1>
-            <h1>number of task today</h1></div>
+            <h1>{numberofTasks}</h1></div>
             <div class='flex justify-center border-b'>
             <button onClick={addTask}><Plus /></button>
             <input placeholder='Add New Task' value={input} onChange={(e)=>setInput(e.target.value)}/>
