@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+.app{
+   padding: 15px;
+   display: flex;
+   justify-content: center;
+   width: 100vw;
+   min-height: 100vh;
+
+}
