@@ -21,6 +21,8 @@ const dd = String(today.getDate()).padStart(2, '0');
 const formatted = `${yy}-${mm}-${dd}`; 
 
 
+const [managePriority, setManagePriority] = useState(0)
+
     function addTask(){
        
         if(input!==''){
@@ -40,11 +42,17 @@ const formatted = `${yy}-${mm}-${dd}`;
     function editTask(){}
 
     function addpriority(id){
-        setAddTasks(prevaddTasks => prevaddTasks.map((task) => task.id === id ?  {...task, priority:task.priority === 'omega' ? 'alpha' : 'beta' } : task)) // almost done coming back the beat bug is still there
+        if(managePriority===2){
+            setManagePriority(0)
+        } else  {
+        setManagePriority(prev=> prev+1)
+        }
+        setAddTasks(prevaddTasks => prevaddTasks.map((task) => task.id === id ?   {...task, priority:managePriority === 0 ? 'omega' : managePriority === 1 ? 'alpha':'beta' } : task))
+         // almost done coming back the beat bug is still there
     }
 
     function addProgress(id){
-        setAddTasks(prevaddTasks => prevaddTasks.map((task) => task.id === id ?  {...task, progress:task.progress === 'undone' ? 'inprogress' : 'Completed' } : task)) // almost done coming back the  bug is still there
+        setAddTasks(prevaddTasks => prevaddTasks.map((task) => task.id === id ?    {...task, progress:task.progress === 'undone' ? 'inprogress' : 'Completed' } : task)) // almost done coming back the  bug is still there
     }
 
     
