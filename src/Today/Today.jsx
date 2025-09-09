@@ -8,6 +8,8 @@ import "react-datepicker/dist/react-datepicker.css";
 
 function Today({ input, setInput, addTasks, setAddTasks }) {
 
+    const [editId, setEditId] = useState(null);
+
     const [numberofTasks, setNumberofTasks] = useState(0)
 
     const [managePriority, setManagePriority] = useState(0)
@@ -15,6 +17,9 @@ function Today({ input, setInput, addTasks, setAddTasks }) {
     const [manageProgress, setManageProgress] = useState(0)
 
     const [startDate, setStartDate] = useState(new Date());
+
+    const [completedTask, setCompletedTask] = useState(false)
+
 
     // Tracks how many task is list for today
     useEffect(() => {
@@ -34,22 +39,41 @@ function Today({ input, setInput, addTasks, setAddTasks }) {
 
 
     function addTask() {
-
         if (input !== '') {
-            setAddTasks(prevaddTasks => [...prevaddTasks, { id: Date.now(), text: input, priority: 'omega', dateAdded: formatted, dueDate: '', list: '', note: [], progress: 'undone' }])
+            if (editId) {
+                // update existing task
+                setAddTasks(prev =>
+                    prev.map(task =>
+                        task.id === editId ? { ...task, text: input } : task
+                    )
+                );
+                setEditId(null); // reset editing mode
+            } else {
+                // add new task
+                setAddTasks(prevaddTasks => [
+                    ...prevaddTasks,
+                    { id: Date.now(), text: input, priority: 'omega', dateAdded: formatted, dueDate: '', list: '', note: [], progress: 'undone' }
+                ]);
+            }
         } else {
-            alert('Please enter a task')
+            alert('Please enter a task');
         }
-        setInput('')
-        // setPrioritys('omega')
+        setInput('');
     }
+
 
     function removeTask(id) {
 
         setAddTasks(prevaddTasks => prevaddTasks.filter((task) => task.id !== id))
     }
 
-    function editTask(id) { }
+    function editTask(id) {
+        const taskToEdit = addTasks.find(task => task.id === id); // need more explanation
+        if (taskToEdit) {
+            setInput(taskToEdit.text); // put text back into input
+            setEditId(id);             // mark this task for editing
+        }
+    }
 
     function addpriority(id) {
         if (managePriority === 2) {
@@ -71,10 +95,13 @@ function Today({ input, setInput, addTasks, setAddTasks }) {
             setManageProgress(prev => prev + 1)
         }
         setAddTasks(prevaddTasks => prevaddTasks.map((task) => task.id === id ? { ...task, progress: manageProgress === 0 ? 'undone' : manageProgress === 1 ? 'inprogress' : manageProgress === 2 } : task))
+
+
     }
 
     function completed(id) {
         setAddTasks(prevaddTasks => prevaddTasks.map((task) => task.id === id ? { ...task, progress: 'completed' } : task))
+       // setCompletedTask(true)
     }// bugs to fixed but mostly done
 
 
@@ -89,7 +116,7 @@ function Today({ input, setInput, addTasks, setAddTasks }) {
                 <input placeholder='Add New Task' value={input} onChange={(e) => setInput(e.target.value)} />
             </div>
             {addTasks.map((task) => <div key={task.id} class=' justify-center gap-5
-             border-b p-[10px]'>
+             border-b p-[10px]' id={completedTask ? 'done' : ''} >
                 <div class='flex gap-20  '>
                     <div class='flex gap-2'>
                         <input type='checkbox' onClick={() => completed(task.id)} />
@@ -102,12 +129,23 @@ function Today({ input, setInput, addTasks, setAddTasks }) {
                     <p>{task.dueDate}</p>
                     <p>{task.list}</p>
                     <button onClick={() => addpriority(task.id)}>{task.priority}</button>
-                    <p onClick={() => addProgress(task.id)}>{task.progress}</p>
+                    <p
+                        onClick={task.progress === 'completed' ? undefined : () => addProgress(task.id)}
+                        style={{
+                            cursor: task.progress === 'completed' ? 'not-allowed' : 'pointer',
+                            color: task.progress === 'completed' ? 'gray' : 'black'
+                        }}
+                    >
+                        {task.progress}
+                    </p>
+
+
                     <DatePicker
                         selected={startDate}
                         onChange={(date) => setStartDate(date)}
-                    />
-                    <button><Pencil /></button>
+                    /> {/* well the date picker is not setting individual dates for the elements */}
+                    <button onClick={() => editTask(task.id)}><Pencil /></button>
+
                 </div>
                 {console.log(task.list)}
             </div>)}
@@ -116,3 +154,4 @@ function Today({ input, setInput, addTasks, setAddTasks }) {
 }
 
 export default Today;
+
