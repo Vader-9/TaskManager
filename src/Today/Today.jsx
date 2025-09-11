@@ -18,7 +18,7 @@ function Today({ input, setInput, addTasks, setAddTasks }) {
 
     const [startDate, setStartDate] = useState(new Date());
 
-    const [completedTask, setCompletedTask] = useState(false)
+   const [completedTask, setCompletedTask] = useState(false)
 
 
     // Tracks how many task is list for today
@@ -128,7 +128,10 @@ function Today({ input, setInput, addTasks, setAddTasks }) {
                     <p>{task.dateAdded.toString()}</p>
                     <p>{task.dueDate}</p>
                     <p>{task.list}</p>
-                    <button onClick={() => addpriority(task.id)}>{task.priority}</button>
+                    <p onClick={task.progress === 'completed'? "undefined" : () => addpriority(task.id)} style={{cursor : task.progress !== 'completed' ? 'pointer': 'not-allowed',
+                        color:task.progress !== 'completed' ? 'black':'grey'
+                    }}>
+                        {task.priority}</p>
                     <p
                         onClick={task.progress === 'completed' ? undefined : () => addProgress(task.id)}
                         style={{
@@ -144,7 +147,7 @@ function Today({ input, setInput, addTasks, setAddTasks }) {
                         selected={startDate}
                         onChange={(date) => setStartDate(date)}
                     /> {/* well the date picker is not setting individual dates for the elements */}
-                    <button onClick={() => editTask(task.id)}><Pencil /></button>
+                    <button onClick={task.progress === 'completed' ? 'undefined':() => editTask(task.id)}><Pencil /></button>
 
                 </div>
                 {console.log(task.list)}
