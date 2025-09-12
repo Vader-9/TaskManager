@@ -22,9 +22,9 @@ function Today({ input, setInput, addTasks, setAddTasks, setNumberofTasks, numbe
     const dd = String(today.getDate()).padStart(2, '0');
     const formatted = `${yy}-${mm}-${dd}`;
 
-    // ✅ Priority filter (only for displaying, doesn’t overwrite addTasks)
+    //  Priority filter (only for displaying, doesn’t overwrite addTasks)
     const priorityData = displayPriority
-        ? addTasks.filter(task => task.priority === displayPriority )
+        ? addTasks.filter(task => task.priority === displayPriority)
         : addTasks;
 
     function addTask() {

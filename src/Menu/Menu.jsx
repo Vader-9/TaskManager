@@ -31,17 +31,17 @@ function MeNu({numberofTasks, setDisplayPriority}) {
           <div>
              <h3>Piority</h3>
            <div>
-              <button onClick={()=>setDisplayPriority('omega')}>apha</button>
+              <button onClick={()=>setDisplayPriority('alpha')}>alpha</button>
             
            </div>
 
            <div>
-              <button>beta</button>
+               <button onClick={()=>setDisplayPriority('beta')}>beta</button>
            {}
            </div>
 
            <div>
-              <button>omega</button>
+              <button onClick={()=>setDisplayPriority('omega')}>omega</button>
            {}
            </div>
            
