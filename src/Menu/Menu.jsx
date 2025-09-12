@@ -1,23 +1,26 @@
-import { ArrowRight,Search } from 'lucide-react';
+import { Menu,Search } from 'lucide-react';
 import { useState } from 'react';
 
-function Menu(){
+function MeNu({numberofTasks, setDisplayPriority}) {
 
-    const [trackTasks, setTrackTasks] = useState('') // not yet in use but it will be use to track tasks for the week
+   // const [trackTasks, setTrackTasks] = useState('') // not yet in use but it will be use to track tasks for the week
 
     return(
         <div class='w-[300px] border p-5 m-3 rounded-lg'>
-           <div class='flex justify-center gap-[200px] p-5'>
+           <div class='flex justify-between  p-2 rounded-lg mb-5'>
             <h3>Menu</h3>
-            <ArrowRight />
+            <Menu />
            </div>
-           <div class='flex justify-center '>
+           <div class='flex justify-between border p-2 rounded-lg mb-5'>
             <input type="text"  placeholder='Search'/>
            <button><Search/></button>
            </div>
           <div>
              <h3>Tasks</h3>
-           {}
+           <div class='flex justify-between margin-top-3'>
+            <h3>Today</h3>
+            <p>{numberofTasks}</p>
+           </div>
            
           </div>
           <div>
@@ -27,11 +30,24 @@ function Menu(){
           </div>
           <div>
              <h3>Piority</h3>
+           <div>
+              <button onClick={()=>setDisplayPriority('omega')}>apha</button>
+            
+           </div>
+
+           <div>
+              <button>beta</button>
            {}
+           </div>
+
+           <div>
+              <button>omega</button>
+           {}
+           </div>
            
           </div>
         </div>
     )
 }
 
-export default Menu;
+export default MeNu;
