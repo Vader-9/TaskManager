@@ -7,7 +7,7 @@ function Today({ input, setInput, addTasks, setAddTasks, setNumberofTasks, numbe
     const [editId, setEditId] = useState(null);
     const [managePriority, setManagePriority] = useState(0);
     const [manageProgress, setManageProgress] = useState(0);
-    const [startDate, setStartDate] = useState(new Date());
+    //    const [startDate, setStartDate] = useState(new Date());
     const [completedTask, setCompletedTask] = useState(false);
 
     // Tracks how many tasks exist
@@ -46,7 +46,7 @@ function Today({ input, setInput, addTasks, setAddTasks, setNumberofTasks, numbe
                         text: input,
                         priority: 'omega',
                         dateAdded: formatted,
-                        dueDate: '',
+                        dueDate: 'set-deadline',   // ✅ each task starts with its own empty dueDate
                         list: '',
                         note: [],
                         progress: 'undone'
@@ -137,7 +137,7 @@ function Today({ input, setInput, addTasks, setAddTasks, setNumberofTasks, numbe
                         <p>{task.dueDate}</p>
                         <p>{task.list}</p>
                         <p
-                            onClick={task.progress === 'completed' ? undefined : () => addpriority(task.id)}
+                            onClick={task.progress === 'completed' || displayPriority ? undefined : () => addpriority(task.id)}
                             style={{
                                 cursor: task.progress !== 'completed' ? 'pointer' : 'not-allowed',
                                 color: task.progress !== 'completed' ? 'black' : 'grey'
@@ -155,10 +155,24 @@ function Today({ input, setInput, addTasks, setAddTasks, setNumberofTasks, numbe
                             {task.progress}
                         </p>
 
+                        {/* ✅ Each task now has its own dueDate */}
                         <DatePicker
-                            selected={startDate}
-                            onChange={(date) => setStartDate(date)}
+                            selected={task.dueDate && task.dueDate !== 'set-deadline' ? new Date(task.dueDate) : null}
+                            onChange={(date) =>
+                                setAddTasks(prev =>
+                                    prev.map(t =>
+                                        t.id === task.id
+                                            ? { ...t, dueDate: date.toISOString() }
+                                            : t
+                                    )
+                                )
+                            }
+                            placeholderText="Set deadline"
+                            dateFormat="yy-MM-dd"   // ✅ same format as dateAdded (yy-mm-dd)
                         />
+
+
+
                         <button onClick={task.progress === 'completed' ? undefined : () => editTask(task.id)}><Pencil /></button>
                     </div>
                 </div>
