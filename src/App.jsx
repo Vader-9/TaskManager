@@ -12,13 +12,15 @@ function App() {
   const [numberofTasks, setNumberofTasks] = useState(0)
   // this is to display the piority of task
   const [displayPriority, setDisplayPriority] = useState('')
+  // this is to serch for task
+  const [search, setSearch] = useState('')
 
 
 
   return (
     <div className='app'>
-      <MeNu  numberofTasks ={numberofTasks} setDisplayPriority={setDisplayPriority}/>
-      <Today input={input} setInput={setInput} addTasks={addTasks} setAddTasks={setAddTasks} editTasks={editTasks} setEditTasks={setEditTasks} numberofTasks={numberofTasks} setNumberofTasks={setNumberofTasks} displayPriority={displayPriority} />
+      <MeNu  numberofTasks ={numberofTasks} setDisplayPriority={setDisplayPriority} search={search} setSearch={setSearch}/>
+      <Today input={input} setInput={setInput} addTasks={addTasks} setAddTasks={setAddTasks} editTasks={editTasks} setEditTasks={setEditTasks} numberofTasks={numberofTasks} setNumberofTasks={setNumberofTasks} displayPriority={displayPriority} search={search} setSearch={setSearch} />
       <Description />
     </div>
   )

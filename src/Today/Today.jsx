@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-function Today({ input, setInput, addTasks, setAddTasks, setNumberofTasks, numberofTasks, displayPriority }) {
+function Today({ input, setInput, addTasks, setAddTasks, setNumberofTasks, numberofTasks, displayPriority,search,setSearch }) {
     const [editId, setEditId] = useState(null);
     const [managePriority, setManagePriority] = useState(0);
     const [manageProgress, setManageProgress] = useState(0);
@@ -22,10 +22,10 @@ function Today({ input, setInput, addTasks, setAddTasks, setNumberofTasks, numbe
     const dd = String(today.getDate()).padStart(2, '0');
     const formatted = `${yy}-${mm}-${dd}`;
 
-    //  Priority filter (only for displaying, doesn’t overwrite addTasks)
+    //  this is for the priority filter and search filter
     const priorityData = displayPriority
         ? addTasks.filter(task => task.priority === displayPriority)
-        : addTasks;
+        : search ? addTasks.filter((tasks)=> tasks.text.toLowerCase().includes(search.toLowerCase())) : addTasks;
 
     function addTask() {
         if (input !== '') {
@@ -106,6 +106,8 @@ function Today({ input, setInput, addTasks, setAddTasks, setNumberofTasks, numbe
             prev.map(task => (task.id === id ? { ...task, progress: 'completed' } : task))
         );
     }
+
+   
 
     return (
         <div className="w-[600px] border p-5 m-3 rounded-lg">

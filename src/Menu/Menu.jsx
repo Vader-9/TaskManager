@@ -1,7 +1,7 @@
 import { Menu,Search } from 'lucide-react';
 import { useState } from 'react';
 
-function MeNu({numberofTasks, setDisplayPriority}) {
+function MeNu({numberofTasks, setDisplayPriority, search,setSearch}) {
 
    // const [trackTasks, setTrackTasks] = useState('') // not yet in use but it will be use to track tasks for the week
 
@@ -12,8 +12,8 @@ function MeNu({numberofTasks, setDisplayPriority}) {
             <Menu />
            </div>
            <div class='flex justify-between border p-2 rounded-lg mb-5'>
-            <input type="text"  placeholder='Search'/>
-           <button><Search/></button>
+            <input type="text"  placeholder='Search' value={search} onChange={(e) => setSearch(e.target.value)}/>
+           <button onClick={()=> setSearch(value)}><Search/></button>
            </div>
           <div>
              <h3>Tasks</h3>
