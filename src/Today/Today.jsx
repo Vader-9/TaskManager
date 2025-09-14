@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-function Today({ input, setInput, addTasks, setAddTasks, setNumberofTasks, numberofTasks, displayPriority,search,setSearch }) {
+function Today({ input, setInput, addTasks, setAddTasks, setNumberofTasks, numberofTasks, displayPriority,search,setTaskInfo }) {
     const [editId, setEditId] = useState(null);
     const [managePriority, setManagePriority] = useState(0);
     const [manageProgress, setManageProgress] = useState(0);
@@ -26,6 +26,8 @@ function Today({ input, setInput, addTasks, setAddTasks, setNumberofTasks, numbe
     const priorityData = displayPriority
         ? addTasks.filter(task => task.priority === displayPriority)
         : search ? addTasks.filter((tasks)=> tasks.text.toLowerCase().includes(search.toLowerCase())) : addTasks;
+
+
 
     function addTask() {
         if (input !== '') {
@@ -124,9 +126,9 @@ function Today({ input, setInput, addTasks, setAddTasks, setNumberofTasks, numbe
                 />
             </div>
 
-            {/* ✅ Use filtered priorityData instead of addTasks */}
+          
             {priorityData.map((task) => (
-                <div key={task.id} className="justify-center gap-5 border-b p-[10px]" id={completedTask ? 'done' : ''}>
+                <div key={task.id} class="justify-center gap-5 border-b p-[10px]" id={completedTask ? 'done' : ''} onClick={()=>setTaskInfo([task.text,task.priority,task.dateAdded.toString(),task.dueDate])}  >
                     <div className="flex gap-20">
                         <div className="flex gap-2">
                             <input type="checkbox" onClick={() => completed(task.id)} />
