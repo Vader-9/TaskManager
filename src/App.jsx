@@ -16,10 +16,7 @@ function App() {
   const [search, setSearch] = useState('')
   // this if for Description of an individual task
   const [taskInfo, setTaskInfo] = useState([])
-   // defualt selected
-  const[selectedList, setSelectedList] = useState('Personal')
-
-
+   
 
   return (
     <div className='app'>
