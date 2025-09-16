@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-function Today({ input, setInput, addTasks, setAddTasks, setNumberofTasks, numberofTasks, displayPriority,search,setTaskInfo }) {
+function Today({ input, setInput, addTasks, setAddTasks, setNumberofTasks, numberofTasks, displayPriority, search, setTaskInfo, selectedList }) {
     const [editId, setEditId] = useState(null);
     const [managePriority, setManagePriority] = useState(0);
     const [manageProgress, setManageProgress] = useState(0);
@@ -25,7 +25,7 @@ function Today({ input, setInput, addTasks, setAddTasks, setNumberofTasks, numbe
     //  this is for the priority filter and search filter
     const priorityData = displayPriority
         ? addTasks.filter(task => task.priority === displayPriority)
-        : search ? addTasks.filter((tasks)=> tasks.text.toLowerCase().includes(search.toLowerCase())) : addTasks;
+        : search ? addTasks.filter((tasks) => tasks.text.toLowerCase().includes(search.toLowerCase())) : addTasks;
 
 
 
@@ -49,8 +49,7 @@ function Today({ input, setInput, addTasks, setAddTasks, setNumberofTasks, numbe
                         priority: 'omega',
                         dateAdded: formatted,
                         dueDate: 'set-deadline',   // ✅ each task starts with its own empty dueDate
-                        list: '',
-                        note: [],
+                        list: selectedList,
                         progress: 'undone'
                     }
                 ]);
@@ -109,7 +108,7 @@ function Today({ input, setInput, addTasks, setAddTasks, setNumberofTasks, numbe
         );
     }
 
-   
+
 
     return (
         <div className="w-[600px] border p-5 m-3 rounded-lg">
@@ -126,9 +125,17 @@ function Today({ input, setInput, addTasks, setAddTasks, setNumberofTasks, numbe
                 />
             </div>
 
-          
+
             {priorityData.map((task) => (
-                <div key={task.id} class="justify-center gap-5 border-b p-[10px]" id={completedTask ? 'done' : ''} onClick={()=>setTaskInfo([task.text,task.priority,task.dateAdded.toString(),task.dueDate])}  >
+                <div key={task.id} class="justify-center gap-5 border-b p-[10px]" id={completedTask ? 'done' : ''} onClick={() =>
+                    setTaskInfo({
+                        text: task.text,
+                        priority: task.priority,
+                        dateAdded: task.dateAdded.toString(),
+                        dueDate: task.dueDate,
+                    }) // still some bugs to fix
+                }
+                >
                     <div className="flex gap-20">
                         <div className="flex gap-2">
                             <input type="checkbox" onClick={() => completed(task.id)} />
@@ -159,7 +166,7 @@ function Today({ input, setInput, addTasks, setAddTasks, setNumberofTasks, numbe
                             {task.progress}
                         </p>
 
-                        {/* ✅ Each task now has its own dueDate */}
+
                         <DatePicker
                             selected={task.dueDate && task.dueDate !== 'set-deadline' ? new Date(task.dueDate) : null}
                             onChange={(date) =>

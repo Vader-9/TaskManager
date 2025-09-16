@@ -15,15 +15,16 @@ function App() {
   // this is to serch for task
   const [search, setSearch] = useState('')
   // this if for Description of an individual task
-  const [taskInfo, setTaskInfo] = useState('')
-  const [taskInfoText, setTaskInfoText] = useState('')
+  const [taskInfo, setTaskInfo] = useState([])
+   // defualt selected
+  const[selectedList, setSelectedList] = useState('Personal')
 
 
 
   return (
     <div className='app'>
-      <MeNu  numberofTasks ={numberofTasks} setDisplayPriority={setDisplayPriority} search={search} setSearch={setSearch}/>
-      <Today input={input} setInput={setInput} addTasks={addTasks} setAddTasks={setAddTasks} editTasks={editTasks} setEditTasks={setEditTasks} numberofTasks={numberofTasks} setNumberofTasks={setNumberofTasks} displayPriority={displayPriority} search={search} setSearch={setSearch} setTaskInfo={setTaskInfo} />
+      <MeNu addTasks={addTasks}  numberofTasks ={numberofTasks} setDisplayPriority={setDisplayPriority} search={search} setSearch={setSearch} />
+      <Today input={input} setInput={setInput} addTasks={addTasks} setAddTasks={setAddTasks} editTasks={editTasks} setEditTasks={setEditTasks} numberofTasks={numberofTasks} setNumberofTasks={setNumberofTasks} displayPriority={displayPriority} search={search} setSearch={setSearch} setTaskInfo={setTaskInfo}/>
       <Description taskInfo={taskInfo} />
     </div>
   )
