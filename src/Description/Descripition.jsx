@@ -8,8 +8,7 @@ function Descripition({taskInfo}){
             <h1>Task:{taskInfo.text}</h1>
             <p>Tasks Descripiton</p>
             <div>
-                <p>List</p>
-                <p>List name:</p>
+                <p>List name:{taskInfo.list}</p>
             </div>
             <div>
                 <p>Due date:{taskInfo.dueDate}</p>

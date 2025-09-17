@@ -1,15 +1,15 @@
-import { Plus, X, Pencil } from 'lucide-react';
+import { Plus, Trash2, Pencil } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-function Today({ input, setInput, addTasks, setAddTasks, setNumberofTasks, numberofTasks, displayPriority, search, setTaskInfo, selectedList }) {
+function Today({ input, setInput, addTasks, setAddTasks, setNumberofTasks, numberofTasks, displayPriority, search, setTaskInfo, folders, activeFolder, }) {
     const [editId, setEditId] = useState(null);
     const [managePriority, setManagePriority] = useState(0);
     const [manageProgress, setManageProgress] = useState(0);
     //    const [startDate, setStartDate] = useState(new Date());
     const [completedTask, setCompletedTask] = useState(false);
-
+    //  console.log(folders[activeFolder].name)
     // Tracks how many tasks exist
     useEffect(() => {
         setNumberofTasks(addTasks.length);
@@ -21,11 +21,6 @@ function Today({ input, setInput, addTasks, setAddTasks, setNumberofTasks, numbe
     const mm = String(today.getMonth() + 1).padStart(2, '0');
     const dd = String(today.getDate()).padStart(2, '0');
     const formatted = `${yy}-${mm}-${dd}`;
-
-    //  this is for the priority filter and search filter
-    const priorityData = displayPriority
-        ? addTasks.filter(task => task.priority === displayPriority)
-        : search ? addTasks.filter((tasks) => tasks.text.toLowerCase().includes(search.toLowerCase())) : addTasks;
 
 
 
@@ -48,8 +43,8 @@ function Today({ input, setInput, addTasks, setAddTasks, setNumberofTasks, numbe
                         text: input,
                         priority: 'omega',
                         dateAdded: formatted,
-                        dueDate: 'set-deadline',   // ✅ each task starts with its own empty dueDate
-                        list: selectedList,
+                        dueDate: 'set-deadline',
+                        list: folders[activeFolder].name,
                         progress: 'undone'
                     }
                 ]);
@@ -59,6 +54,9 @@ function Today({ input, setInput, addTasks, setAddTasks, setNumberofTasks, numbe
         }
         setInput('');
     }
+
+
+
 
     function removeTask(id) {
         setAddTasks(prev => prev.filter(task => task.id !== id));
@@ -109,12 +107,31 @@ function Today({ input, setInput, addTasks, setAddTasks, setNumberofTasks, numbe
     }
 
 
+    const folderName = folders[activeFolder].name
+    console.log(folderName)
+
+    //  this is for the priority filter and search filter
+    const priorityData = displayPriority
+        ? addTasks.filter((task) => task.priority === displayPriority)
+        : search
+            ? addTasks.filter((task) =>
+                task.text.toLowerCase().includes(search.toLowerCase())
+            )
+            : activeFolder
+                ? addTasks.filter((task) => task.list === folderName)
+                : addTasks;
+
+
+
+
+
+
 
     return (
         <div className="w-[600px] border p-5 m-3 rounded-lg">
             <div className="flex justify-center border-b">
-                <h1>Today</h1>
-                <h1>{numberofTasks}</h1>
+                <h1>{activeFolder ? folderName : 'General list'}</h1>
+                <h1>{numberofTasks < 1 ? '' : addTasks.length}</h1>
             </div>
             <div className="flex justify-left border-b p-[10px]">
                 <button onClick={addTask}><Plus /></button>
@@ -133,6 +150,7 @@ function Today({ input, setInput, addTasks, setAddTasks, setNumberofTasks, numbe
                         priority: task.priority,
                         dateAdded: task.dateAdded.toString(),
                         dueDate: task.dueDate,
+                        list: folderName
                     }) // still some bugs to fix
                 }
                 >
@@ -141,7 +159,7 @@ function Today({ input, setInput, addTasks, setAddTasks, setNumberofTasks, numbe
                             <input type="checkbox" onClick={() => completed(task.id)} />
                             <h1 className="text-[20px]">{task.text}</h1>
                         </div>
-                        <button onClick={() => removeTask(task.id)}><X /></button>
+                        <button onClick={() => removeTask(task.id)}><Trash2 /></button>
                     </div>
                     <div className="flex gap-[10px]">
                         <p>{task.dateAdded.toString()}</p>

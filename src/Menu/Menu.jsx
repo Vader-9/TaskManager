@@ -1,18 +1,13 @@
-import { Menu, Search, Plus, Folder, FolderPen, CircleX } from 'lucide-react';
+import { Menu, Search, Plus, Folder, FolderPen, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
-function MeNu({ numberofTasks, setDisplayPriority, search, setSearch, addTasks }) {
+function MeNu({ numberofTasks, setDisplayPriority, search, setSearch, addTasks, folders, setFolders, setActiveFolder}) {
   const [inputs, setInputs] = useState('');
   const [folderId, setFolderId] = useState(null);
   const [folderTrigger, setFolderTrigger] = useState(false);
+  
 
-  const [folders, setFolders] = useState([
-    {
-      id: 1,
-      name: 'Personal',
-      task: [addTasks],
-    },
-  ]);
+  
 
   function addFolder() {
     if (inputs !== '') {
@@ -46,6 +41,11 @@ function MeNu({ numberofTasks, setDisplayPriority, search, setSearch, addTasks }
       setFolderTrigger(true);
     }
   }
+
+  function displayList(index){
+    setActiveFolder(index)
+  }
+  
 
   return (
     <div className="w-[300px] border p-5 m-3 rounded-lg">
@@ -82,12 +82,12 @@ function MeNu({ numberofTasks, setDisplayPriority, search, setSearch, addTasks }
           <button onClick={addFolder}><Plus /></button>
         </div>
 
-        {folders.map((folder) => (
-          <div key={folder.id} className="flex gap-2 items-center">
+        {folders.map((folder, index) => (
+          <div key={folder.id} className="flex gap-2 items-center" onClick={()=>displayList(index)}>
             <Folder />
             <p>{folder.name}</p>
             <button onClick={() => renameFolder(folder.id)}><FolderPen /></button>
-            <button onClick={() => removeFolder(folder.id)}><CircleX /></button>
+            <button onClick={() => removeFolder(folder.id)}><Trash2 /></button>
           </div>
         ))}
       </div>
@@ -104,6 +104,7 @@ function MeNu({ numberofTasks, setDisplayPriority, search, setSearch, addTasks }
           <button onClick={() => setDisplayPriority('omega')}>omega</button>
         </div>
       </div>
+      <div></div>
     </div>
   );
 }
