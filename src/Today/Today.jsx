@@ -127,6 +127,7 @@ function Today({
   }
 
   const folderName = folders?.[activeFolder]?.name ?? "General List";
+  // dont full understand
 
 
   const priorityData = displayPriority
@@ -172,15 +173,7 @@ function Today({
         <div
           key={task.id}
           className="mb-4 p-4 rounded-xl border border-purple-600 bg-black/40 hover:bg-black/60 transition cursor-pointer shadow-[0_0_15px_rgba(147,51,234,0.7)]"
-          onClick={() =>
-            setTaskInfo({
-              text: task.text,
-              priority: task.priority,
-              dateAdded: task.dateAdded.toString(),
-              dueDate: task.dueDate,
-              list: folderName,
-            })
-          }
+         
         >
           {/* Task row */}
           <div className="flex justify-between items-center">
@@ -219,7 +212,15 @@ function Today({
             <p>{task.dateAdded.toString()}</p>
             <p className="text-pink-400">{task.dueDate}</p>
             <p className="text-cyan-400">{task.list}</p>
-
+            <p className="text-cyan-400" onClick={() =>
+            setTaskInfo({
+              text: task.text,
+              priority: task.priority,
+              dateAdded: task.dateAdded.toString(),
+              dueDate: task.dueDate,
+              list: folderName,
+            })
+          }>more</p>
             <p
               onClick={
                 task.progress === "completed" || displayPriority
