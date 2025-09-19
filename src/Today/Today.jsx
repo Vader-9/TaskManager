@@ -19,7 +19,6 @@ function Today({
   const [editId, setEditId] = useState(null);
   const [managePriority, setManagePriority] = useState(0);
   const [manageProgress, setManageProgress] = useState(0);
-  const [completedTask, setCompletedTask] = useState(false);
 
   useEffect(() => {
     setNumberofTasks(addTasks.length);
@@ -127,8 +126,6 @@ function Today({
   }
 
   const folderName = folders?.[activeFolder]?.name ?? "General List";
-  // dont full understand
-
 
   const priorityData = displayPriority
     ? addTasks.filter((task) => task.priority === displayPriority)
@@ -141,19 +138,19 @@ function Today({
     : addTasks;
 
   return (
-    <div className="w-[900px]    p-6  text-white">
+    <div className="w-full md:w-[900px] p-4 md:p-6 text-white">
       {/* Header */}
-      <div className="flex justify-between items-center border-b border-purple-400 pb-3 mb-5">
-        <h1 className="text-2xl font-bold tracking-wider text-purple-300 drop-shadow-lg">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center border-b border-purple-400 pb-3 mb-5 gap-2">
+        <h1 className="text-xl sm:text-2xl font-bold tracking-wider text-purple-300 drop-shadow-lg">
           {activeFolder ? folderName : "General List"}
         </h1>
-        <span className="text-lg text-pink-400 font-semibold">
+        <span className="text-base sm:text-lg text-pink-400 font-semibold">
           {numberofTasks > 0 ? addTasks.length : ""}
         </span>
       </div>
 
       {/* Add task input */}
-      <div className="flex items-center gap-3 border-b border-indigo-400 pb-4 mb-5">
+      <div className="flex flex-col sm:flex-row items-center gap-3 border-b border-indigo-400 pb-4 mb-5">
         <button
           onClick={addTask}
           className="p-2 rounded-full bg-pink-600 hover:bg-pink-500 transition shadow-[0_0_10px_rgba(236,72,153,0.8)]"
@@ -164,7 +161,7 @@ function Today({
           placeholder="Add New Task..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          className="flex-1 bg-transparent border-b border-pink-400 focus:outline-none focus:border-cyan-400 text-lg text-white placeholder-pink-300"
+          className="flex-1 bg-transparent border-b border-pink-400 focus:outline-none focus:border-cyan-400 text-base sm:text-lg text-white placeholder-pink-300"
         />
       </div>
 
@@ -173,10 +170,9 @@ function Today({
         <div
           key={task.id}
           className="mb-4 p-4 rounded-xl border border-purple-600 bg-black/40 hover:bg-black/60 transition cursor-pointer shadow-[0_0_15px_rgba(147,51,234,0.7)]"
-         
         >
           {/* Task row */}
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3">
             <div className="flex items-center gap-3">
               <input
                 type="checkbox"
@@ -187,7 +183,7 @@ function Today({
                 className="accent-pink-500 w-5 h-5"
               />
               <h1
-                className={`text-xl ${
+                className={`text-lg sm:text-xl ${
                   task.progress === "completed"
                     ? "line-through text-gray-400"
                     : "text-cyan-300"
@@ -201,26 +197,31 @@ function Today({
                 e.stopPropagation();
                 removeTask(task.id);
               }}
-              className="p-2 text-red-400 hover:text-red-200 hover:scale-110 transition"
+              className="p-2 text-red-400 hover:text-red-200 hover:scale-110 transition self-end sm:self-auto"
             >
               <Trash2 />
             </button>
           </div>
 
           {/* Task details */}
-          <div className="mt-3 flex gap-4 flex-wrap text-sm text-purple-200">
+          <div className="mt-3 flex flex-wrap gap-3 text-sm text-purple-200">
             <p>{task.dateAdded.toString()}</p>
             <p className="text-pink-400">{task.dueDate}</p>
             <p className="text-cyan-400">{task.list}</p>
-            <p className="text-cyan-400" onClick={() =>
-            setTaskInfo({
-              text: task.text,
-              priority: task.priority,
-              dateAdded: task.dateAdded.toString(),
-              dueDate: task.dueDate,
-              list: folderName,
-            })
-          }>more</p>
+            <p
+              className="text-cyan-400 cursor-pointer"
+              onClick={() =>
+                setTaskInfo({
+                  text: task.text,
+                  priority: task.priority,
+                  dateAdded: task.dateAdded.toString(),
+                  dueDate: task.dueDate,
+                  list: folderName,
+                })
+              }
+            >
+              more
+            </p>
             <p
               onClick={
                 task.progress === "completed" || displayPriority
@@ -268,7 +269,7 @@ function Today({
               }
               placeholderText="Set deadline"
               dateFormat="yy-MM-dd"
-              className="bg-transparent border border-pink-500 rounded-md px-2 py-1 text-pink-300 focus:outline-none"
+              className="bg-transparent border border-pink-500 rounded-md px-2 py-1 text-pink-300 focus:outline-none w-full sm:w-auto"
             />
 
             <button

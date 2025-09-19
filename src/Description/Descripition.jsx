@@ -1,6 +1,6 @@
 function Descripition({ taskInfo }) {
   return (
-    <div className="w-[300px]  p-5 ">
+    <div className="hidden md:block w-[300px] p-5">
       <h1 className="text-lg font-bold text-pink-400 mb-2">
         Task: <span className="text-pink-200">{taskInfo.text}</span>
       </h1>
